@@ -1,3 +1,5 @@
+#!/bin/bash
+set -x 
 curl -sfL https://get.k3s.io | sh -
 sudo ufw allow 6443/tcp
 sudo ufw reload
