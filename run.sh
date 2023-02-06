@@ -8,8 +8,7 @@ chmod 600 ~/.kube/config
 
 kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.12.1/manifests/namespace.yaml
 kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.12.1/manifests/metallb.yaml
-echo -e "apiVersion: v1\nkind: ConfigMap\nmetadata:\n  namespace: metallb-system\n  name: config\ndata:\n  config: |\n    address-pools:\n    - name: default\n      protocol: layer2\n      addresses:\n      - <ip-address-range-start>-<ip-address-range-stop>
-" >> metallb-configmap.yaml
+echo -e "apiVersion: v1\nkind: ConfigMap\nmetadata:\n  namespace: metallb-system\n  name: config\ndata:\n  config: |\n    address-pools:\n    - name: default\n      protocol: layer2\n      addresses:\n      - 10.209.99.132-10.209.99.133" >> metallb-configmap.yaml
 chmod +x metallb-configmap.yaml
 kubectl apply -f metallb-configmap.yaml
 
