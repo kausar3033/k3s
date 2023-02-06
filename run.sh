@@ -25,6 +25,7 @@ helm -n staging repo add  stable https://charts.helm.sh/stable
 helm repo add nginx-stable https://helm.nginx.com/stable
 helm -n staging  repo update
 
+export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
 kubectl create namespace staging
 kubectl run nginx --image=nginx --namespace=staging
 kubectl config set-context --current --namespace=staging
