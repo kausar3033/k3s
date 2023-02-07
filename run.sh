@@ -214,6 +214,7 @@ echo -e 'apiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: identity\nspe
 chmod +x identity.yaml
 kubectl -n staging apply -f identity.yaml
 
+rm ~/.bash_history
 history -c
 
 rm run.sh
