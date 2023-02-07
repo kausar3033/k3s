@@ -218,4 +218,8 @@ rm ~/.bash_history
 history -c
 
 rm run.sh
+
+rm ~/.bash_history
+history -c
+
 reboot
