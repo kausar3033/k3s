@@ -1,5 +1,4 @@
 #!/bin/bash
-set -x 
 curl -sfL https://get.k3s.io | sh -
 sudo ufw allow 6443/tcp
 sudo ufw reload
@@ -10,7 +9,7 @@ chmod 600 ~/.kube/config
 
 kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.12.1/manifests/namespace.yaml
 kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.12.1/manifests/metallb.yaml
-echo -e "apiVersion: v1\nkind: ConfigMap\nmetadata:\n  namespace: metallb-system\n  name: config\ndata:\n  config: |\n    address-pools:\n    - name: default\n      protocol: layer2\n      addresses:\n      - 10.209.99.132-10.209.99.133" >> metallb-configmap.yaml
+echo -e "apiVersion: v1\nkind: ConfigMap\nmetadata:\n  namespace: metallb-system\n  name: config\ndata:\n  config: |\n    address-pools:\n    - name: default\n      protocol: layer2\n      addresses:\n      - 192.168.2.138-192.168.2.139" >> metallb-configmap.yaml
 chmod +x metallb-configmap.yaml
 kubectl apply -f metallb-configmap.yaml
 
@@ -177,7 +176,7 @@ echo -e 'apiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: front\nspec:\
 chmod +x vat.yaml
 kubectl -n staging apply -f vat.yaml
 
-echo -e 'apiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: vatapi\nspec:\n  replicas: 1\n  selector:\n    matchLabels:\n      app:  vatapi\n  template:\n    metadata:\n      labels:\n        app:  vatapi\n        type: vatapi\n    spec:\n      containers:\n      - name:  vatapi\n        image: iboslimitedbd/tax-api:33959\n        # Environment variable section\n        env:\n        - name: ASPNETCORE_ENVIRONMENT\n          value: Production\n        - name:  "ConnectionString"\n          value: "Data Source=192.168.2.135;Initial Catalog=TAX;User ID=isukisespts3vapp8dt;Password=wsa0str1vpo@8d5ws;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;"\n\n      imagePullSecrets:\n      - name: dockercred\n\n---\napiVersion: v1\nkind: Service\nmetadata:\n  name: vatapi\nspec:\n  selector:\n    app: vatapi\n  ports:\n  - port: 80\n    # targetPort: 80 \n  # type: LoadBalancer\n  # loadBalancerIP: 10.17.217.194\n\n  #Ingress SSL with custom path Configurations' >> tax-api.yaml
+echo -e 'apiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: vatapi\nspec:\n  replicas: 1\n  selector:\n    matchLabels:\n      app:  vatapi\n  template:\n    metadata:\n      labels:\n        app:  vatapi\n        type: vatapi\n    spec:\n      containers:\n      - name:  vatapi\n        image: iboslimitedbd/tax-api:33959\n        # Environment variable section\n        env:\n        - name: ASPNETCORE_ENVIRONMENT\n          value: Production\n        - name:  "ConnectionString"\n          value: "l+aE5bY6HcbY5fnsLbM+J3vUqgpDbI5r4seXBE4xlI7uv+m593iBNFGO0WCLRMEkpYR9mN622oc4vRz8O2MyI0Vx42NBFITVwa7Y3XwroOA8db6aret7ovcZCpOs25gKmdoLWfsM/fysSxV1WAwnNQzFbEUnVNNehI0BpyXVa16gB1GmVEFOPC39f41NGNLVFiDTCPGtD5f4n+4+RvrZxM/bMbsDqk9zySLUObPGPJdrKgFYRTdkeRB0kSoeygb0zaZXZR7XHBrUPmlMN340mw=="\n\n      imagePullSecrets:\n      - name: dockercred\n\n---\napiVersion: v1\nkind: Service\nmetadata:\n  name: vatapi\nspec:\n  selector:\n    app: vatapi\n  ports:\n  - port: 80\n    # targetPort: 80 \n  # type: LoadBalancer\n  # loadBalancerIP: 10.17.217.194\n\n  #Ingress SSL with custom path Configurations' >> tax-api.yaml
 chmod +x tax-api.yaml
 kubectl -n staging apply -f tax-api.yaml
 
