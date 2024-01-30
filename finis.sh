@@ -1,8 +1,5 @@
-git clone https://github.com/kausar3033/k3s.git&&cd k3s&&chmod +x run.sh&&./run.sh
-git clone https://github.com/kausar3033/oneclickmssql.git&&cd oneclickmssql&&chmod +x mssql.sh&&./mssql.sh
-
-
 #!/bin/bash
+set -x
 curl -sfL https://get.k3s.io | sh -
 sudo ufw allow 6443/tcp
 sudo ufw reload
